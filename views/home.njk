@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>Books</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="/script.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="page-header"><h1 class="text-center">List of Book</h1></div>
+    <div class="row">
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="inputKeyword" placeholder="Keyword">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success btn-block">
+                <i class="glyphicon glyphicon-search"></i>
+            </button>
+        </div>
+    </div>
+    <hr>
+    <ul class="list-group" id="listBooks"></ul>
+    <form id="Book">
+        <ul class="list-group">
+            {% for book in books %}
+            <li class="list-group-item">
+                <a href="/detail/{{book.getId()}}">{{book.getTitle()}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </form>
+    <button class="btn btn-default" onClick="window.location.href='/add'">Add</button>
+</div>
+</body>
+<script id="bookTemplate" type="text/html">
+    <li><a class="list-group-item" href="/detail/:id">:bookName:</a></li>
+</script>
+</html>

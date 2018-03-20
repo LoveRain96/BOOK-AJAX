@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>CREATE BOOK</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--<script src="/script.js"></script>-->
+</head>
+<body>
+<h1>ADD BOOK</h1>
+<ul>
+    <li> <a href="/">Home</a> </li>
+</ul>
+<nav>
+    <form method="post" action="/book" >
+        <lable>Title:</lable>
+        <input type="text" name="title" id="title" value="">
+        <p></p>
+        <lable for="author">Author:</lable>
+        <input type="text" name="author" id="author" value="">
+        <label for="publisher_id">Publisher:</label>
+        <select class="select" id="publisher_id" name="publisher_id">
+            {% for publisher in publishers %}
+            <option value="{{publisher.getId()}}">{{publisher.getName()}}</option>
+            {% endfor %}
+        </select>
+        <lable for="price">Price:</lable>
+        <input type="number" name="price" id="price" value="">
+        <button type="submit">Add</button>
+    </form>
+</nav>
+</body>
+</html>

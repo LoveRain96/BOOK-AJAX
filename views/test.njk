@@ -1,0 +1,203 @@
+<!--    <script>
+        function ajax(method, url, onFinish) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    onFinish(xhr.responseText)
+                }
+            };
+            xhr.open(method, url);
+            xhr.send();
+        }
+        ajax("get", "/book", function (res) {
+            console.log(res);
+        })
+    </script>-->
+<!--    <script>
+        function ajax(method, url) {
+            return new Promise(function (resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        resolve(JSON.parse(xhr.responseText))
+                    }
+                    if (xhr.status > 399) {
+                        reject(xhr);
+                    }
+                };
+                xhr.open(method, url);
+                xhr.send();
+            });
+        }
+        ajax("get", "/books").then(function (books) {
+            console.log(books);
+        }, function () {
+            console.log("error!")
+        });
+    </script>-->
+<html>
+<head>
+    <title>Test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#inputKeyword').change(function () {
+                $.get('api/books', {
+                    keyword: $(this).val(),
+                }).then(renderBooks);
+                function renderBooks(books) {
+                    var template = $('#bookTemplate').html();
+                    var resultsHtml =books.map(function (book) {
+                        return template.replace(':bookName:', book.title).replace(':id:', book.id)
+                    }).join('');
+                    $('#viewBook').html(resultsHtml);
+                }
+            })
+        })
+        /* $('#post').click(function () {
+             ajaxCall("/book", 'POST', {
+                 title: $("#title").val(),
+                 author: $("#author").val(),
+                 publisher_id: $("#publisher_id").val(),
+                 price: $("#price").val(),
+
+             }).then(function (data) {
+                 console.log(data);
+             })
+         });
+     });
+         function ajaxCall(url, method, data) {
+            return $.ajax({
+                url:url,
+                method : method,
+                data : data
+             });
+         }
+     $(document).ready(function () {
+         function features(url, method, data) {
+             return $.ajax({
+                 url: url,
+                 method : method,
+                 data   : data
+             })
+         }
+         $("#add-new").click(function () {
+             $("#Create").show()
+         });
+/!*
+         $("#post").click(function () {
+             features('/book', 'POST',{
+                 title  : $("#title").val(),
+                 author : $("#author").val(),
+                 publisher_id : $("#publisher_id").val(),
+                 price : $("#price").val(),
+             })
+         });c
+*!/
+         $("#edit").click(function () {
+             features('/update',"PUT",{
+                 id : $("#id").val(),
+                 title  : $("#title").val(),
+                 author : $("#author").val(),
+                 publisher_id : $("#publisher_id").val(),
+                 price : $("#price").val(),
+             }).then(value => {
+                 console.log(value);
+             })
+         });
+         $("#delete").click(function () {
+             features('/delete',"DELETE",{
+                 id : $("#id").val(),
+             }).then(value => {
+                 console.log(value);
+             })
+         });
+         $("#get").click(function () {
+             features('/books',"GET").then(value => {
+                 console.log(value)
+                 //console.log(value[0].title);
+             })
+         });
+         $("#search-basic").click(function () {
+             features('/search-basic', "GET", {
+                 keyword : $("#keyword").val()
+             }).then(value =>{
+                 console.log(value);
+             })
+         });
+         $("#search-advance").click(function () {
+             features('/search-advance', "GET", {
+                 title : $("#title").val(),
+                 author : $("#author").val(),
+                 publisher: $("#publisherName").val()
+             }).then(value =>{
+                 console.log(value);
+             })
+         });
+         $('#title').keyup(function () {
+             features("/search-title", 'get', {
+                 title : $("#title").val()
+             }).then(function (data) {
+                 if (!data.length){
+                     $('p').text("");
+                 }else {
+                     $('p').text("Title Already Taken !");
+                 }
+                 console.log(data);
+             })
+         });
+     })*/
+    </script>
+</head>
+<body>
+<h1>ADD BOOK</h1>
+<ul>
+    <li> <a href="/books">Home</a> </li>
+</ul>
+<nav>
+    <button id="get">GET-ALL-BOOK</button>
+    <br>
+    <button id="add-new">CREATE</button>
+    <br>
+    <form hidden id="Create">
+        <lable>Title:</lable>
+        <input type="text" name="title" id="title" value="">
+        <p></p>
+        <lable for="author">Author:</lable>
+        <input type="text" name="author" id="author" value="">
+        <label for="publisher_id">Publisher:</label>
+        <select class="select" id="publisher_id" name="publisher_id">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+        <lable for="price">Price:</lable>
+        <input type="number" name="price" id="price" value="">
+        <button id="post">Add</button>
+
+    </form>
+    <br>
+    <form>
+        <button id="edit">Edit</button>
+        <button id="delete">DELETE</button>
+        <input id="id" placeholder="Id...">
+    </form>
+    <br>
+    <form>
+        <input id="keyword" placeholder="Search-basic...">
+        <button id="search-basic">SearchBasic</button>
+    </form>
+    <br>
+    <form>
+        <input id="publisherName" placeholder="publisherName">
+        <button id="search-advance">SearchAdvance</button>
+    </form>
+</nav>
+<script id="bookTemplate" type="text/html">
+    <li><a href="/books/:id:">:bookName</a></li>
+</script>
+</body>
+</html>
