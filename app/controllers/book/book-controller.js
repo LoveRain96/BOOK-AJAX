@@ -12,8 +12,8 @@ class BookController {
 
     searchBook(request, response, next) {
         request.app.get('book.searcher').search(request.condition)
-            .then((foundBook) => response.render('home.njk', {books: foundBook})
-            ).catch(next)
+            .then((foundBook) => response.json(foundBook.map(result=>result.toJson())))
+            .catch(next)
     }
     suggest(request, response, next) {
         request.app.get('book.searcher').search(request.condition)
@@ -54,7 +54,7 @@ class BookController {
     updateBook(request, response, next) {
         let repo = request.app.get('books.repo');
         repo.edit(request.book).then(function () {
-            response.json({message: "Success!"});
+            response.json({message: 'success!'});
         }).catch(next)
     }
 
@@ -64,7 +64,7 @@ class BookController {
             response.redirect('/');
         }).catch(next);
     }
-    createBook(request, response, next) {
+        createBook(request, response, next) {
         let repo = request.app.get('books.repo');
         repo.add(request.book).then(function () {
             response.redirect('/');

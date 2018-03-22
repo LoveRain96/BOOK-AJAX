@@ -8,9 +8,9 @@ $(document).ready(function () {
         }).then(renderBooks)
     });
 
-    $('#edit').click(function () {
+   /* $('#edit').click(function () {
         var id = $("#id").val();
-        return $.ajax('/update/'.concat(id), "POST", {
+        ajaxCall('/update/'.concat(id),'POST', {
             title        : $("#title").val(),
             author       : $("#author").val(),
             publisher_id : $("#publisher_id").val(),
@@ -18,14 +18,29 @@ $(document).ready(function () {
         }).then(function (value) {
             console.log(value);
         })
+    });*/
+    $("#edit").click(function () {
+        var id = $("#id").val();
+        $.ajax('/update/'.concat(id), {
+            method:"POST",
+            data  : {
+                title        : $("#title").val(),
+                author       : $("#author").val(),
+                publisher_id : $("#publisher_id").val(),
+                price        : $("#price").val()
+            }
+        }).then(function (value) {
+            console.log(value);
+        })
     });
     $("#post").click(function () {
+
         $.post('/book',{
             title  : $("#title").val(),
             author : $("#author").val(),
             publisher_id : $("#publisher_id").val(),
             price : $("#price").val(),
-        })
+        }).then(renderBooks);
     });
     /*$('#title').change(function () {
         $.get("/search-title", {
@@ -44,6 +59,36 @@ $(document).ready(function () {
         return $.get('/delete/'.concat(id)).then(function (value) {
             console.log(value);
         })
+    });
+    $("#formSearchAdvance").click(function () {
+        $("#formAdvance").toggle()
+    });
+    $("#testEvent").click(function (event) {
+        event.preventDefault();
+    });
+    $("#searchAdvance").click(function (event) {
+        event.preventDefault();
+        $('#Book').hide();
+        $.get('/search-advance', {
+            title : $("#title").val(),
+            author: $("#author").val(),
+            publisher: $("#publisherName").val()
+        }).then(renderBooks)
+    });
+    $("#title").keyup(function () {
+        $.get('/search-title', {
+            title : $("#title").val()
+        }).then(function (value) {
+            if (value.length) {
+                $('p').text("Title Already Taken !")
+            }
+            else {
+                $('p').text("")
+            }
+        })
+    });
+    $('p').click(function (event) {
+        alert(event.currentTarget=== this);
     })
 });
 function renderBooks(books) {
@@ -54,3 +99,11 @@ function renderBooks(books) {
     $('#listBooks').html(resultsHtml);
 }
 
+/*
+function ajaxCall(url, method, data) {
+    return $.ajax({
+        url:url,
+        method : method,
+        data : data
+    });
+}*/

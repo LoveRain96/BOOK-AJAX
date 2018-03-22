@@ -1,38 +1,65 @@
 <html>
 <head>
     <title>Books</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/script.js"></script>
 </head>
 <body>
 <div class="container-fluid">
-    <div class="page-header"><h1 class="text-center">List of Book</h1></div>
-    <div class="row">
-        <div class="col-md-10">
-            <input type="text" class="form-control" id="inputKeyword" placeholder="Keyword">
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-success btn-block">
-                <i class="glyphicon glyphicon-search"></i>
-            </button>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="page-header"><h1 class="text-center">List of Book</h1></div>
+            <button class="btn btn-default" onClick="window.location.href='/add'">Add</button>
+            <button id="formSearchAdvance" class="btn btn-default" >SearchAdvance</button>
+            <hr>
+            <form hidden id="formAdvance">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <input class="form-control" placeholder="Enter Title..." name="title" id="title" value="">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input class="form-control" placeholder="Enter Author..." type="text" name="author" id="author" value="">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input class="form-control" placeholder="Enter PublisherName..." type="text" name="publisher" id="publisherName" value="">
+                    </div>
+                    <div class="col-md-2">
+                        <button id="searchAdvance" class="btn btn-success">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <p></p>
+            <hr>
+            <form id="testEvent">
+                <div class="row">
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="inputKeyword" placeholder="Keyword">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-success btn-block">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <ul class="list-group" id="listBooks"></ul>
+            <form id="Book">
+                <ul class="list-group">
+                    {% for book in books %}
+                    <li class="list-group-item">
+                        <a href="/detail/{{book.getId()}}">{{book.getTitle()}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </form>
         </div>
     </div>
-    <hr>
-    <ul class="list-group" id="listBooks"></ul>
-    <form id="Book">
-        <ul class="list-group">
-            {% for book in books %}
-            <li class="list-group-item">
-                <a href="/detail/{{book.getId()}}">{{book.getTitle()}}</a>
-            </li>
-            {% endfor %}
-        </ul>
-    </form>
-    <button class="btn btn-default" onClick="window.location.href='/add'">Add</button>
-</div>
 </body>
 <script id="bookTemplate" type="text/html">
-    <li><a class="list-group-item" href="/detail/:id">:bookName:</a></li>
+    <li class="list-group-item"><a  href="/detail/:id">:bookName:</a></li>
 </script>
 </html>

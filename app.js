@@ -33,8 +33,8 @@ app.set('publisherProvider', new PublisherProvider(knex));
 
 app.use(index.router);
 
-app.listen(8088,function () {
-    console.log("Running port 8088")
+app.listen(8080,function () {
+    console.log("Running port 8080")
 });
 
 module.exports = app;
